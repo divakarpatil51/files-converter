@@ -4,4 +4,4 @@ metadata:
   name: auth-service-config-map
   namespace: files-converter-app
 data:
-  SQLALCHEMY_DATABASE_URI: uri
+  SQLALCHEMY_DATABASE_URI: postgresql://user:password@auth-db-svc:5432/auth_svc_db

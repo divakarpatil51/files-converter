@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: auth-db
+  namespace: files-converter-app
+spec:
+  selector:
+    matchLabels:
+      app: auth-db
+  serviceName: auth-db-svc
+  template:
+    metadata:
+      labels:
+        app: auth-db
+    spec:
+      containers:
+      - name: auth-db
+        image: postgres:12
+        envFrom:
+          - configMapRef:
+              name: auth-db-config
+        ports:
+        - containerPort: 5432
+          name: auth-db
+        volumeMounts:
+        - name: auth-db-storage
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: auth-db-storage
+      namespace: files-converter-app
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 500Mi
