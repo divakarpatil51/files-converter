@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-service-deployment
+  name: api-gateway-deployment
   namespace: files-converter-app
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: auth-service
+      app: api-gateway
   template:
     metadata:
       labels:
-        app: auth-service
+        app: api-gateway
     spec:
       containers:
-      - name: auth-service
-        image: divakar51/files-converter-auth:0.0.1
+      - name: api-gateway
+        image: divakar51/files-converter-api-gateway:0.0.1
         resources:
           limits:
-            memory: "120Mi"
+            memory: "128Mi"
             cpu: "500m"
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         envFrom:
           - configMapRef:
-              name: auth-service-config-map
+              name: api-gateway-config-map
